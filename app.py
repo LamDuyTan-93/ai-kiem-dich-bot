@@ -10,7 +10,7 @@ from sqlalchemy import create_engine
 st.set_page_config(page_title="AI Giám Sát Kiểm Dịch", page_icon="🌿", layout="centered")
 
 # --- BỘ LỌC AN TOÀN API KEY ---
-raw_api_key = st.secrets["AIzaSyAlUEjgRr3d1Osv7YWocsTMbw0ahidflxc"].strip()
+raw_api_key = st.secrets["GOOGLE_API_KEY"].strip()
 raw_api_key = raw_api_key.replace('"', '').replace("'", "") 
 
 if not raw_api_key.startswith("AIza"):
@@ -33,7 +33,7 @@ except Exception as e:
 
 # 2. CẤU HÌNH DỮ LIỆU
 PROJECT_ID = "datagiamdinh" 
-DATASET_ID = "ten_dataset_cua_ban" # ---> NHỚ SỬA TÊN DATASET CỦA BẠN VÀO ĐÂY 
+DATASET_ID = "demo1" # ---> NHỚ SỬA TÊN DATASET CỦA BẠN VÀO ĐÂY 
 
 # 3. KẾT NỐI AI VÀ BIGQUERY
 @st.cache_resource
