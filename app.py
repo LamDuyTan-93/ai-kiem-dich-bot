@@ -44,7 +44,7 @@ def get_system():
     db = SQLDatabase(engine)
     
     # Bật não AI Gemini 1.5 Pro (Đã cập nhật model mới nhất để tránh lỗi 404)
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest", temperature=0)
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
     chain = create_sql_query_chain(llm, db)
     return db, chain
 
