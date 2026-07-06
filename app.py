@@ -18,7 +18,7 @@ bq_credentials_dict = json.loads(st.secrets["BIGQUERY_JSON"])
 credentials = service_account.Credentials.from_service_account_info(bq_credentials_dict)
 
 PROJECT_ID = "datagiamdinh" 
-DATASET_ID = "ten_dataset_cua_ban" # Hãy nhớ thay tên dataset thật của bạn vào đây
+DATASET_ID = "demo1" # Hãy nhớ thay tên dataset thật của bạn vào đây
 
 # 3. KẾT NỐI AI VÀ BIGQUERY (Đã fix lỗi kết nối xác thực)
 @st.cache_resource
