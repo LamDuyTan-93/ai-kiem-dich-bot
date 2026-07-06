@@ -4,7 +4,6 @@ import json
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.utilities import SQLDatabase
 from langchain.chains import create_sql_query_chain
-from google.oauth2 import service_account
 from sqlalchemy import create_engine
 
 # 1. THIẾT LẬP GIAO DIỆN ĐIỆN THOẠI
@@ -15,7 +14,7 @@ raw_api_key = st.secrets["GOOGLE_API_KEY"].strip()
 raw_api_key = raw_api_key.replace('"', '').replace("'", "") 
 
 if not raw_api_key.startswith("AIza"):
-    st.error("🚨 LỖI MÃ KHÓA: Mã GOOGLE_API_KEY không hợp lệ.")
+    st.error("🚨 LỖI MÃ KHÓA: Mã GOOGLE_API_KEY không hợp lệ. Vui lòng kiểm tra lại Két sắt (Secrets).")
     st.stop()
     
 os.environ["GOOGLE_API_KEY"] = raw_api_key
@@ -34,15 +33,17 @@ except Exception as e:
 
 # 2. CẤU HÌNH DỮ LIỆU
 PROJECT_ID = "datagiamdinh" 
-DATASET_ID = "demo1" # ---> GHI LẠI TÊN DATASET CỦA BẠN VÀO ĐÂY
+DATASET_ID = "ten_dataset_cua_ban" # ---> NHỚ SỬA TÊN DATASET CỦA BẠN VÀO ĐÂY 
 
 # 3. KẾT NỐI AI VÀ BIGQUERY
 @st.cache_resource
 def get_system():
+    # Tạo kết nối an toàn với BigQuery
     bq_uri = f"bigquery://{PROJECT_ID}/{DATASET_ID}"
     engine = create_engine(bq_uri, credentials_info=bq_credentials_dict)
     db = SQLDatabase(engine)
     
+    # Bật não AI Gemini 1.5 Pro (Đã cập nhật model mới nhất để tránh lỗi 404)
     llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro", temperature=0)
     chain = create_sql_query_chain(llm, db)
     return db, chain
@@ -62,16 +63,21 @@ if st.button("🔍 Tra Cứu Dữ Liệu"):
     if user_question:
         with st.spinner('Hệ thống đang quét dữ liệu đám mây (Có thể mất 30s cho lần đầu tiên)...'):
             try:
+                # Ép AI hiểu ngữ cảnh để viết SQL chuẩn xác hơn
                 prompt_context = f"""
                 Bạn là chuyên gia dữ liệu BigQuery. Bảng dữ liệu chứa hồ sơ giám định. 
                 Hãy viết một câu lệnh SQL chuẩn xác để trả lời câu hỏi: {user_question}
-                Chỉ trả về đúng câu lệnh SQL, KHÔNG giải thích.
+                Chỉ trả về đúng câu lệnh SQL, KHÔNG giải thích, không dùng markdown ```sql.
                 """
                 sql_query = chain.invoke({"question": prompt_context})
+                
+                # Dọn dẹp câu lệnh SQL nếu AI lỡ bọc thêm markdown định dạng
+                sql_query = sql_query.replace("```sql", "").replace("```", "").strip()
+                
                 result = db.run(sql_query)
                 
                 st.success("Đã tìm thấy dữ liệu!")
                 st.code(sql_query, language="sql")
                 st.write("**Kết quả:**", result)
             except Exception as e:
-                st.error("Gặp sự cố khi phân tích. Lời khuyên: Hãy thử đặt câu hỏi ngắn gọn hơn bằng các từ khóa có trong tiêu đề cột.")
+                st.error(f"Gặp sự cố khi phân tích. Lời khuyên: Hãy thử đặt câu hỏi ngắn gọn hơn bằng các từ khóa có trong tiêu đề cột. Chi tiết lỗi: {e}")
