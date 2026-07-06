@@ -1,5 +1,3 @@
 streamlit
 google-generativeai
 google-cloud-bigquery
-sqlalchemy
-sqlalchemy-bigquery
