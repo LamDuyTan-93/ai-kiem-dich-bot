@@ -11,10 +11,11 @@ from sqlalchemy import create_engine
 st.set_page_config(page_title="AI Giám Sát Kiểm Dịch", page_icon="🌿", layout="centered")
 
 # 2. LẤY MÃ KHÓA TỪ "KÉT SẮT" CỦA MÁY CHỦ
-os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
+os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"].strip()
 
 # Đọc file JSON của BigQuery
-bq_credentials_dict = json.loads(st.secrets["BIGQUERY_JSON"])
+raw_json = st.secrets["BIGQUERY_JSON"].strip()
+bq_credentials_dict = json.loads(raw_json)
 credentials = service_account.Credentials.from_service_account_info(bq_credentials_dict)
 
 PROJECT_ID = "datagiamdinh" 
