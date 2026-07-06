@@ -38,7 +38,7 @@ def get_system():
     db = SQLDatabase(engine)
     
     # Bật AI Gemini 1.5 Flash bằng hệ thống giao tiếp mới nhất
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-8b", temperature=0, api_version="v1")
     return db, llm
 
 try:
