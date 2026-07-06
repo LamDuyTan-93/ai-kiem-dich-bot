@@ -2,7 +2,7 @@ streamlit
 langchain==0.2.16
 langchain-community==0.2.16
 langchain-core==0.2.40
-langchain-google-genai==1.0.10
+langchain-google-genai>=2.0.1
 sqlalchemy<3.0.0
 sqlalchemy-bigquery
 google-cloud-bigquery
