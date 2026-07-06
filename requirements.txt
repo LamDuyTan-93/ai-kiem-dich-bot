@@ -1,9 +1,10 @@
 streamlit
-langchain
-langchain-community
-langchain-core
-langchain-google-genai
-sqlalchemy
+langchain==0.2.16
+langchain-community==0.2.16
+langchain-core==0.2.40
+langchain-google-genai==1.0.10
+sqlalchemy<3.0.0
 sqlalchemy-bigquery
 google-cloud-bigquery
 tabulate
+greenlet
