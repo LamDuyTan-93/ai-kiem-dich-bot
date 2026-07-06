@@ -43,7 +43,7 @@ def get_system():
     engine = create_engine(bq_uri, credentials_info=bq_credentials_dict)
     db = SQLDatabase(engine)
     
-    llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0)
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro", temperature=0)
     chain = create_sql_query_chain(llm, db)
     return db, chain
 
