@@ -10,7 +10,7 @@ from sqlalchemy import create_engine
 st.set_page_config(page_title="AI Giám Sát Kiểm Dịch", page_icon="🌿", layout="centered")
 
 # --- BỘ LỌC AN TOÀN API KEY ---
-raw_api_key = st.secrets["GOOGLE_API_KEY"].strip()
+raw_api_key = st.secrets["AIzaSyAlUEjgRr3d1Osv7YWocsTMbw0ahidflxc"].strip()
 raw_api_key = raw_api_key.replace('"', '').replace("'", "") 
 
 if not raw_api_key.startswith("AIza"):
