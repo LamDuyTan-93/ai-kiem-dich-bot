@@ -40,7 +40,7 @@ except Exception as e:
     st.stop()
 
 # 4. XÂY DỰNG GIAO DIỆN HIỂN THỊ
-st.title("🌿 Trợ Lý AI: Hồ Sơ Kiểm Dịch 2025")
+st.title("🌿 Trợ Lý AI: Chào Bạn!")
 
 user_question = st.text_input("Nhập yêu cầu tra cứu (Ví dụ: Có bao nhiêu lô thanh long vi phạm?):")
 
