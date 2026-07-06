@@ -36,6 +36,7 @@ PROJECT_ID = "datagiamdinh"
 DATASET_ID = "demo1" # ---> NHỚ SỬA TÊN DATASET CỦA BẠN VÀO ĐÂY 
 
 # 3. KẾT NỐI AI VÀ BIGQUERY
+# 3. KẾT NỐI AI VÀ BIGQUERY
 @st.cache_resource
 def get_system():
     # Tạo kết nối an toàn với BigQuery
@@ -43,8 +44,8 @@ def get_system():
     engine = create_engine(bq_uri, credentials_info=bq_credentials_dict)
     db = SQLDatabase(engine)
     
-    # Bật não AI Gemini 1.5 Pro (Đã cập nhật model mới nhất để tránh lỗi 404)
-   llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
+    # Bật não AI Gemini
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
     chain = create_sql_query_chain(llm, db)
     return db, chain
 
